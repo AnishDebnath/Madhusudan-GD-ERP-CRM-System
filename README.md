@@ -2,7 +2,7 @@
 
 A comprehensive Enterprise Resource Planning (ERP) system tailored for the Jewelry, Gold, and Diamond industry. This application provides a full suite of tools to manage every aspect of a jewellery business, from Point of Sale (POS) and inventory to complex gold loans and artisan management.
 
-![Dashboard Preview](https://via.placeholder.com/1200x600?text=Madhusudan+ERP+Dashboard)
+![Dashboard Preview](https://madhusudangd.netlify.app)
 
 ## 🚀 Key Features
 
