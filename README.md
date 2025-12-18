@@ -79,4 +79,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
-[MIT](LICENSE)
+This project is licensed under the Copyright License - see the LICENSE file for details.
+
+---
+
+*Developed for Madhusudan G&D ERP CRM System - "Anish Debnath"*
