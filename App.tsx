@@ -11,7 +11,7 @@ import Accounts from './pages/Accounts';
 import GoldLoan from './pages/GoldLoan';
 import Purchases from './pages/Purchases';
 import Tejori from './pages/Tejori';
-import Artisans from './pages/Artisans';
+import Karigars from './pages/Karigars';
 import Partners from './pages/Partners';
 import HR from './pages/HR';
 import Orders from './pages/Orders';
@@ -36,14 +36,14 @@ const App = () => {
             <Route path="customers" element={<Customers />} />
             <Route path="accounts" element={<Accounts />} />
             <Route path="settings" element={<Settings />} />
-            
+
             {/* New Enterprise Modules */}
             <Route path="tejori" element={<Tejori />} />
-            <Route path="artisans" element={<Artisans />} />
+            <Route path="karigars" element={<Karigars />} />
             <Route path="partners" element={<Partners />} />
             <Route path="hr" element={<HR />} />
             <Route path="masters" element={<Masters />} />
-            
+
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>

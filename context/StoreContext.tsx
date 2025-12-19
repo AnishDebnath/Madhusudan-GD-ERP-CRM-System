@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { 
-  Product, Customer, Order, Transaction, Employee, 
-  GoldLoan, RepairJob, PurchaseOrder, Lead, 
-  DiamondPacket, TejoriGoldStock, Artisan, WorkOrder, 
+import {
+  Product, Customer, Order, Transaction, Employee,
+  GoldLoan, RepairJob, PurchaseOrder, Lead,
+  DiamondPacket, TejoriGoldStock, Karigar, WorkOrder,
   Dealer, MintJob, Role, ActivityLog, MetalType, GoldLedgerType,
   InterestPayment, MetalRates, PayrollRecord, MasterItem, AttendanceRecord, ShopProfile
 } from '../types';
@@ -21,7 +21,7 @@ interface StoreContextType {
   leads: Lead[];
   diamondStock: DiamondPacket[];
   goldStock: TejoriGoldStock[];
-  artisans: Artisan[];
+  karigars: Karigar[];
   workOrders: WorkOrder[];
   dealers: Dealer[];
   mintJobs: MintJob[];
@@ -31,7 +31,7 @@ interface StoreContextType {
   payrolls: PayrollRecord[];
   masters: MasterItem[];
   attendance: AttendanceRecord[];
-  
+
   // Actions
   updateShopProfile: (profile: ShopProfile) => void;
   addProduct: (item: Product) => void;
@@ -52,8 +52,8 @@ interface StoreContextType {
   addDiamondPacket: (packet: DiamondPacket) => void;
   addWorkOrder: (wo: WorkOrder) => void;
   updateWorkOrder: (wo: WorkOrder) => void;
-  addArtisan: (artisan: Artisan) => void;
-  updateArtisan: (artisan: Artisan) => void;
+  addKarigar: (karigar: Karigar) => void;
+  updateKarigar: (karigar: Karigar) => void;
   addDealer: (dealer: Dealer) => void;
   logActivity: (module: string, action: string, description: string, user: string) => void;
   updateRates: (newRates: MetalRates) => void;
@@ -63,7 +63,7 @@ interface StoreContextType {
   markAttendance: (record: AttendanceRecord) => void;
   addRole: (role: Role) => void;
   updateRole: (role: Role) => void;
-  
+
   // Financials
   totalSales: number;
   totalExpenses: number;
@@ -97,7 +97,7 @@ const usePersistedState = <T,>(key: string, initialValue: T): [T, React.Dispatch
 };
 
 export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  
+
   // --- SYSTEM CONFIG ---
   const [shopProfile, setShopProfile] = usePersistedState<ShopProfile>('shopProfile', {
     name: 'MADHUSUDAN G&D',
@@ -125,7 +125,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   ]);
 
   const [employees, setEmployees] = usePersistedState<Employee[]>('employees', [
-     { id: '1', code: 'EMP-001', fullName: 'Admin User', email: 'admin@prema.com', phone: '9999999999', designation: 'Manager', department: 'Management', dateOfJoining: '2020-01-01', status: 'Active', basicSalary: 50000, hra: 20000, conveyance: 5000, allowances: 0, deductions: 0, roleId: 'admin' }
+    { id: '1', code: 'EMP-001', fullName: 'Admin User', email: 'admin@prema.com', phone: '9999999999', designation: 'Manager', department: 'Management', dateOfJoining: '2020-01-01', status: 'Active', basicSalary: 50000, hra: 20000, conveyance: 5000, allowances: 0, deductions: 0, roleId: 'admin' }
   ]);
 
   const [loans, setLoans] = usePersistedState<GoldLoan[]>('loans', []);
@@ -138,24 +138,24 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     { id: '1', packetNo: 'PKT-24-001', shape: 'Round', quality: 'VVS1', weight: 12.5, unit: 'Carat', pieces: 50, ratePerUnit: 45000, totalAmount: 562500, status: 'In Stock', location: 'Tejori' },
   ]);
   const [goldStock, setGoldStock] = usePersistedState<TejoriGoldStock[]>('goldStock', [
-     { id: 'g1', type: 'Std Bar', purity: '24K', weight: 1000, location: 'Tejori' },
-     { id: 'g2', type: 'Old Gold', purity: '22K', weight: 450.5, location: 'Tejori' },
-     { id: 'g3', type: 'Wastage', purity: '22K', weight: 12.4, location: 'Tejori' },
+    { id: 'g1', type: 'Std Bar', purity: '24K', weight: 1000, location: 'Tejori' },
+    { id: 'g2', type: 'Old Gold', purity: '22K', weight: 450.5, location: 'Tejori' },
+    { id: 'g3', type: 'Wastage', purity: '22K', weight: 12.4, location: 'Tejori' },
   ]);
-  const [artisans, setArtisans] = usePersistedState<Artisan[]>('artisans', [
-     { id: '1', name: 'Ramesh Karigar', skill: 'Gold', phone: '9876543210', status: 'Active', goldBalance: 0, cashBalance: 0 },
+  const [karigars, setKarigars] = usePersistedState<Karigar[]>('artisans', [
+    { id: '1', name: 'Ramesh Karigar', skill: 'Gold', phone: '9876543210', status: 'Active', goldBalance: 0, cashBalance: 0 },
   ]);
   const [workOrders, setWorkOrders] = usePersistedState<WorkOrder[]>('workOrders', []);
   const [dealers, setDealers] = usePersistedState<Dealer[]>('dealers', [
-     { id: '1', name: 'Rajesh Gold House', companyName: 'RGH Ltd', type: 'Supplier', phone: '9876543210', city: 'Mumbai', balance: -500000 },
+    { id: '1', name: 'Rajesh Gold House', companyName: 'RGH Ltd', type: 'Supplier', phone: '9876543210', city: 'Mumbai', balance: -500000 },
   ]);
   const [mintJobs, setMintJobs] = usePersistedState<MintJob[]>('mintJobs', []);
-  
+
   const [roles, setRoles] = usePersistedState<Role[]>('roles', [
     { id: 'admin', name: 'Administrator', description: 'Full System Access', permissions: ['*'] },
     { id: 'user', name: 'Staff', description: 'Limited Access', permissions: ['Customer:View', 'Customer:Add', 'Sales:Add'] },
   ]);
-  
+
   const [logs, setLogs] = usePersistedState<ActivityLog[]>('logs', []);
   const [rates, setRates] = usePersistedState<MetalRates>('rates', {
     gold24k: 6850,
@@ -164,7 +164,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     silver: 78.5,
     lastUpdated: new Date().toISOString()
   });
-  
+
   const [payrolls, setPayrolls] = usePersistedState<PayrollRecord[]>('payrolls', []);
   const [masters, setMasters] = usePersistedState<MasterItem[]>('masters', [
     { id: '1', type: 'Purity', value: '24K', isActive: true },
@@ -181,7 +181,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const addProduct = (item: Product) => setProducts(prev => [item, ...prev]);
   const updateProduct = (item: Product) => setProducts(prev => prev.map(p => p.id === item.id ? item : p));
   const deleteProduct = (id: string) => setProducts(prev => prev.filter(p => p.id !== id));
-  
+
   const updateProductStock = (id: string, qty: number) => {
     setProducts(prev => prev.map(p => p.id === id ? { ...p, stock: p.stock - qty } : p));
   };
@@ -191,17 +191,17 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const addOrder = (order: Order) => {
     setOrders(prev => [order, ...prev]);
     order.advances.forEach(adv => {
-       addTransaction({
-         id: Math.random().toString(),
-         date: adv.date,
-         description: `Order Advance: ${order.orderNo} (${adv.type})`,
-         category: 'Sales',
-         type: 'Credit',
-         amount: adv.value,
-         paymentMode: adv.type === 'Cash' ? 'Cash' : 'Other',
-         referenceId: order.orderNo,
-         status: 'Completed'
-       });
+      addTransaction({
+        id: Math.random().toString(),
+        date: adv.date,
+        description: `Order Advance: ${order.orderNo} (${adv.type})`,
+        category: 'Sales',
+        type: 'Credit',
+        amount: adv.value,
+        paymentMode: adv.type === 'Cash' ? 'Cash' : 'Other',
+        referenceId: order.orderNo,
+        status: 'Completed'
+      });
     });
     logActivity('Retail', 'Create Order', `Created Order ${order.orderNo}`, 'Admin');
   };
@@ -210,96 +210,96 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const addTransaction = (tx: Transaction) => {
     setTransactions(prev => [tx, ...prev]);
-    
+
     // Auto-update stock if it's a sale with items
     if (tx.items && tx.items.length > 0 && tx.category === 'Sales') {
-       tx.items.forEach(item => updateProductStock(item.id, item.quantity));
+      tx.items.forEach(item => updateProductStock(item.id, item.quantity));
     }
 
     // Auto-update customer stats if linked
     if (tx.customerId) {
-       setCustomers(prev => prev.map(c => 
-         c.id === tx.customerId 
-           ? { ...c, totalSpend: c.totalSpend + tx.amount, lastVisit: tx.date } 
-           : c
-       ));
+      setCustomers(prev => prev.map(c =>
+        c.id === tx.customerId
+          ? { ...c, totalSpend: c.totalSpend + tx.amount, lastVisit: tx.date }
+          : c
+      ));
     }
 
     logActivity('Finance', 'New Transaction', `${tx.type} of ₹${tx.amount}`, 'Admin');
   };
 
   const addEmployee = (emp: Employee) => setEmployees(prev => [emp, ...prev]);
-  
+
   const addLoan = (loan: GoldLoan) => {
     setLoans(prev => [loan, ...prev]);
     if (loan.status === 'Active') {
-        addTransaction({
-           id: Math.random().toString(),
-           date: loan.startDate,
-           description: `Gold Loan Disbursed: ${loan.loanId}`,
-           category: 'Expense',
-           type: 'Debit',
-           amount: loan.loanAmount,
-           paymentMode: 'Cash',
-           referenceId: loan.loanId,
-           status: 'Completed'
-        });
+      addTransaction({
+        id: Math.random().toString(),
+        date: loan.startDate,
+        description: `Gold Loan Disbursed: ${loan.loanId}`,
+        category: 'Expense',
+        type: 'Debit',
+        amount: loan.loanAmount,
+        paymentMode: 'Cash',
+        referenceId: loan.loanId,
+        status: 'Completed'
+      });
     }
     logActivity('Gold Loan', 'Create', `Created Loan ${loan.loanId} (${loan.status})`, 'Admin');
   };
 
   const updateLoan = (updatedLoan: GoldLoan) => {
-     setLoans(prev => prev.map(l => l.id === updatedLoan.id ? updatedLoan : l));
+    setLoans(prev => prev.map(l => l.id === updatedLoan.id ? updatedLoan : l));
   };
 
   const addRepair = (job: RepairJob) => setRepairs(prev => [job, ...prev]);
   const updateRepair = (job: RepairJob) => {
     setRepairs(prev => prev.map(r => r.id === job.id ? job : r));
   };
-  
+
   const addPurchase = (po: PurchaseOrder) => {
     setPurchases(prev => [po, ...prev]);
     const updateGoldStock = (type: GoldLedgerType, weight: number, purity: string) => {
-        setGoldStock(prev => {
-            const existing = prev.find(g => g.type === type && g.location === 'Tejori');
-            if (existing) {
-                return prev.map(g => g.id === existing.id ? { ...g, weight: g.weight + weight } : g);
-            } else {
-                return [...prev, {
-                    id: Math.random().toString(),
-                    type,
-                    purity: purity as any,
-                    weight,
-                    location: 'Tejori'
-                }];
-            }
-        });
+      setGoldStock(prev => {
+        const existing = prev.find(g => g.type === type && g.location === 'Tejori');
+        if (existing) {
+          return prev.map(g => g.id === existing.id ? { ...g, weight: g.weight + weight } : g);
+        } else {
+          return [...prev, {
+            id: Math.random().toString(),
+            type,
+            purity: purity as any,
+            weight,
+            location: 'Tejori'
+          }];
+        }
+      });
     };
-    
+
     if (po.purchaseType === 'Old Gold') {
       const totalWeight = po.items.reduce((acc, item) => acc + item.weight, 0);
       updateGoldStock('Old Gold', totalWeight, '22K');
       addTransaction({
-         id: Math.random().toString(),
-         date: po.date,
-         description: `Old Gold Purchase: ${po.invoiceNo}`,
-         category: 'Purchase',
-         type: 'Debit',
-         amount: po.totalAmount,
-         paymentMode: 'Cash',
-         referenceId: po.invoiceNo,
-         status: 'Completed'
+        id: Math.random().toString(),
+        date: po.date,
+        description: `Old Gold Purchase: ${po.invoiceNo}`,
+        category: 'Purchase',
+        type: 'Debit',
+        amount: po.totalAmount,
+        paymentMode: 'Cash',
+        referenceId: po.invoiceNo,
+        status: 'Completed'
       });
       logActivity('Tejori', 'Old Gold Purchase', `Bought ${totalWeight}g Old Gold from ${po.supplierName}`, 'Admin');
     } else {
-       po.items.forEach(item => {
-          if (item.category === 'Std Bar' || item.category === 'Bullion') {
-              updateGoldStock('Std Bar', item.weight, item.purity);
-          } else {
-              updateGoldStock('New Ornament', item.weight, item.purity);
-          }
-       });
-       addTransaction({
+      po.items.forEach(item => {
+        if (item.category === 'Std Bar' || item.category === 'Bullion') {
+          updateGoldStock('Std Bar', item.weight, item.purity);
+        } else {
+          updateGoldStock('New Ornament', item.weight, item.purity);
+        }
+      });
+      addTransaction({
         id: Math.random().toString(),
         date: po.date,
         description: `Purchase Invoice: ${po.invoiceNo}`,
@@ -309,8 +309,8 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         paymentMode: 'Bank Transfer',
         referenceId: po.invoiceNo,
         status: 'Completed'
-     });
-       logActivity('Purchase', 'Vendor Invoice', `Added Invoice ${po.invoiceNo}`, 'Admin');
+      });
+      logActivity('Purchase', 'Vendor Invoice', `Added Invoice ${po.invoiceNo}`, 'Admin');
     }
   };
 
@@ -318,10 +318,10 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const addDiamondPacket = (packet: DiamondPacket) => setDiamondStock(prev => [packet, ...prev]);
   const addWorkOrder = (wo: WorkOrder) => setWorkOrders(prev => [wo, ...prev]);
   const updateWorkOrder = (wo: WorkOrder) => setWorkOrders(prev => prev.map(w => w.id === wo.id ? wo : w));
-  const addArtisan = (artisan: Artisan) => setArtisans(prev => [artisan, ...prev]);
-  const updateArtisan = (artisan: Artisan) => setArtisans(prev => prev.map(a => a.id === artisan.id ? artisan : a));
+  const addKarigar = (karigar: Karigar) => setKarigars(prev => [karigar, ...prev]);
+  const updateKarigar = (karigar: Karigar) => setKarigars(prev => prev.map(a => a.id === karigar.id ? karigar : a));
   const addDealer = (dealer: Dealer) => setDealers(prev => [dealer, ...prev]);
-  
+
   const addPayroll = (record: PayrollRecord) => setPayrolls(prev => [record, ...prev]);
   const addMaster = (item: MasterItem) => setMasters(prev => [item, ...prev]);
   const deleteMaster = (id: string) => setMasters(prev => prev.filter(m => m.id !== id));
@@ -331,13 +331,13 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const markAttendance = (record: AttendanceRecord) => {
     setAttendance(prev => {
-        const existingIndex = prev.findIndex(a => a.employeeId === record.employeeId && a.date === record.date);
-        if (existingIndex >= 0) {
-            const newAtt = [...prev];
-            newAtt[existingIndex] = record;
-            return newAtt;
-        }
-        return [...prev, record];
+      const existingIndex = prev.findIndex(a => a.employeeId === record.employeeId && a.date === record.date);
+      if (existingIndex >= 0) {
+        const newAtt = [...prev];
+        newAtt[existingIndex] = record;
+        return newAtt;
+      }
+      return [...prev, record];
     });
   };
 
@@ -352,7 +352,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     };
     setLogs(prev => [log, ...prev]);
   };
-  
+
   const updateRates = (newRates: MetalRates) => {
     setRates(newRates);
     logActivity('Masters', 'Rate Update', 'Updated Daily Gold/Silver Rates', 'Admin');
@@ -367,12 +367,12 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   return (
     <StoreContext.Provider value={{
       shopProfile, products, customers, orders, transactions, employees, loans, repairs, purchases, leads,
-      diamondStock, goldStock, artisans, workOrders, dealers, mintJobs, roles, logs, rates,
+      diamondStock, goldStock, karigars, workOrders, dealers, mintJobs, roles, logs, rates,
       payrolls, masters, attendance,
-      updateShopProfile, addProduct, updateProduct, deleteProduct, updateProductStock, addCustomer, addOrder, updateOrder, 
+      updateShopProfile, addProduct, updateProduct, deleteProduct, updateProductStock, addCustomer, addOrder, updateOrder,
       addTransaction, addEmployee,
-      addLoan, updateLoan, addRepair, updateRepair, addPurchase, addLead, addDiamondPacket, 
-      addWorkOrder, updateWorkOrder, addArtisan, updateArtisan, addDealer, logActivity, updateRates,
+      addLoan, updateLoan, addRepair, updateRepair, addPurchase, addLead, addDiamondPacket,
+      addWorkOrder, updateWorkOrder, addKarigar, updateKarigar, addDealer, logActivity, updateRates,
       addPayroll, addMaster, deleteMaster, markAttendance, addRole, updateRole,
       totalSales, totalExpenses, netProfit, cashInHand
     }}>

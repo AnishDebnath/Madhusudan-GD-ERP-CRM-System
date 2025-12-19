@@ -109,7 +109,7 @@ export interface AdvanceReceipt {
   type: 'Cash' | 'Old Gold' | 'Stone';
   description: string;
   value: number;
-  
+
   // Specifics for Old Gold
   goldWeight?: number;
   goldPurity?: string;
@@ -129,7 +129,7 @@ export interface DiamondPacket {
   ratePerUnit: number;
   totalAmount: number;
   status: 'QC Pending' | 'In Stock' | 'Issued' | 'Sold';
-  location: 'Tejori' | 'Showroom' | 'Artisan';
+  location: 'Tejori' | 'Showroom' | 'Karigar';
 }
 
 export interface TejoriGoldStock {
@@ -140,9 +140,9 @@ export interface TejoriGoldStock {
   location: 'Tejori' | 'Showroom' | 'Mint';
 }
 
-// --- PRODUCTION (ARTISAN) ---
+// --- PRODUCTION (KARIGAR) ---
 
-export interface Artisan {
+export interface Karigar {
   id: string;
   name: string;
   skill: 'Gold' | 'Diamond' | 'Polki';
@@ -160,7 +160,7 @@ export interface WorkOrder {
   dueDate: string;
   designCode: string;
   status: 'Issued' | 'Completed';
-  
+
   // Issued Material
   goldIssued: number; // Weight
   goldPurity: string;
@@ -212,7 +212,7 @@ export interface Transaction {
   paymentMode: 'Cash' | 'Card' | 'UPI' | 'Bank Transfer' | 'Other';
   referenceId?: string; // Invoice ID or Bill No
   status: 'Completed' | 'Pending';
-  
+
   // Invoice Specifics
   items?: CartItem[];
   customerName?: string;
@@ -251,7 +251,7 @@ export interface RepairJob {
   productWeight?: number;
   metalType?: string;
   images: string[];
-  warrantyUntil?: string; 
+  warrantyUntil?: string;
   purchaseDate?: string;
   deliveredDate?: string;
   notes: string[];
@@ -314,8 +314,8 @@ export interface KPICardProps {
   isPositive?: boolean;
 }
 
-export type Department = 'Showroom' | 'Tejori' | 'Accounts' | 'Mint' | 'Artisan Dept' | 'Management';
-export type Designation = 'Manager' | 'Sales Exec' | 'Cashier' | 'Tejori Incharge' | 'Artisan Coordinator' | 'QC Officer';
+export type Department = 'Showroom' | 'Tejori' | 'Accounts' | 'Mint' | 'Karigar Dept' | 'Management';
+export type Designation = 'Manager' | 'Sales Exec' | 'Cashier' | 'Tejori Incharge' | 'Karigar Coordinator' | 'QC Officer';
 export type EmployeeStatus = 'Active' | 'Inactive' | 'Resigned' | 'On Hold';
 
 export interface Employee {
@@ -346,7 +346,7 @@ export interface Employee {
 
 // --- ACCESS CONTROL ---
 
-export type AppModule = 'Customer' | 'Artisan' | 'Dealer' | 'Mint' | 'Tejori' | 'Diamond' | 'Hallmark' | 'Accounts' | 'HR';
+export type AppModule = 'Customer' | 'Karigar' | 'Dealer' | 'Mint' | 'Tejori' | 'Diamond' | 'Hallmark' | 'Accounts' | 'HR';
 export type ActionType = 'View' | 'Add' | 'Edit' | 'Delete' | 'Approve';
 
 export interface Role {

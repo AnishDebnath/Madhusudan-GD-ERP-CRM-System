@@ -1,11 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Users, 
-  Calculator, 
-  ClipboardList, 
-  Settings, 
+import {
+  LayoutDashboard,
+  Users,
+  Calculator,
+  ClipboardList,
+  Settings,
   Gem,
   Megaphone,
   Wrench,
@@ -45,7 +45,7 @@ const Sidebar = () => {
     {
       title: 'Production',
       items: [
-        { name: 'Artisans', icon: <Hammer size={18} />, path: '/artisans' },
+        { name: 'Karigars', icon: <Hammer size={18} />, path: '/karigars' },
         { name: 'Mint & Refining', icon: <Briefcase size={18} />, path: '/partners' },
       ]
     },
@@ -82,10 +82,9 @@ const Sidebar = () => {
                   key={item.path}
                   to={item.path}
                   className={({ isActive }) =>
-                    `flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${
-                      isActive
-                        ? 'bg-gradient-to-r from-gold-600 to-gold-500 text-maroon-900 font-semibold shadow-md'
-                        : 'text-gray-300 hover:bg-maroon-800 hover:text-white'
+                    `flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${isActive
+                      ? 'bg-gradient-to-r from-gold-600 to-gold-500 text-maroon-900 font-semibold shadow-md'
+                      : 'text-gray-300 hover:bg-maroon-800 hover:text-white'
                     }`
                   }
                 >
@@ -100,9 +99,9 @@ const Sidebar = () => {
 
       <div className="p-4 border-t border-maroon-800 bg-maroon-950/30 shrink-0">
         <div className="flex items-center gap-3">
-          <img 
-            src="https://picsum.photos/40/40" 
-            alt="User" 
+          <img
+            src="https://picsum.photos/40/40"
+            alt="User"
             className="w-8 h-8 rounded-full border border-gold-500"
           />
           <div>
